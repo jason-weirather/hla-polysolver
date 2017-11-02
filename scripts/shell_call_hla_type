@@ -1,0 +1,218 @@
+#!/bin/sh
+
+#### check if an appropriate number of arguments were passed ####
+
+if [ $# -ne 7 ]; then
+        echo 1>&2 Usage: $0 bam race includeFreq build format insertCalc outDir
+	echo "	-bam: path to the BAM file to be used for HLA typing"
+	echo "	-race: ethnicity of the individual (Caucasian, Black, Asian or Unknown)"
+	echo "	-includeFreq: flag indicating whether population-level allele frequencies should be used as priors (0 or 1)"
+	echo "	-build: reference genome used in the BAM file (hg18 or hg19)"
+	echo "	-format: fastq format (STDFQ, ILMFQ, ILM1.8 or SLXFQ; see Novoalign documentation)"
+	echo "	-insertCalc: flag indicating whether empirical insert size distribution should be used in the model (0 or 1)"
+	echo "	-outDir: output directory"
+        exit 127
+fi
+
+echo "Environment variables"
+echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
+echo "  -SAMTOOLS_DIR: directory containing the samtools executable = $SAMTOOLS_DIR"
+echo "  -JAVA_DIR: directory containing the JAVA_DIR executable"
+echo "  -NOVOALIGN_DIR: directory containing the Novoalign executables = $NOVOALIGN_DIR"
+echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
+echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
+                                                                   
+bam=$1
+race=$2
+includeFreq=$3
+build=$4
+format=$5
+insertCalc=$6
+outDir=$7
+
+ids=$PSHOME/data/ids
+tag_file=$PSHOME/data/abc_v14.uniq
+
+
+mkdir $outDir
+
+var=`cat $ids`
+
+# calculate insert size distribution
+
+
+if [ $insertCalc == 1 ]; then
+
+	echo -n -e "calculating insert size distribution\n"
+
+	$JAVA_DIR/java -Xmx12g -Xms5g -jar $GATK_DIR/CollectInsertSizeMetrics.jar I=$bam O=$outDir/insertsize.txt H=$outDir/insertsize.hist.pdf VALIDATION_STRINGENCY=SILENT TMP_DIR=$outDir
+
+
+else
+	echo -n -e "skipping insert size distribution\n"
+
+	iFile=0
+
+fi
+
+# getting matching tag sequences
+
+echo -n -e "getting matching tags\n"
+
+$SAMTOOLS_DIR/samtools view -H $bam > $outDir/tag.sam
+
+$SAMTOOLS_DIR/samtools view $bam | grep -F -f $tag_file >> $outDir/tag.sam
+
+$SAMTOOLS_DIR/samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
+
+$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
+
+$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
+
+$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
+
+#getting chr6 region
+
+echo -n -e "getting chr6 region\n"
+
+$SAMTOOLS_DIR/samtools view -H $bam > $outDir/chr6region.sam
+
+if [ $build == "hg19" ]; then
+
+        echo -n -e "build=hg19\n"
+
+        $SAMTOOLS_DIR/samtools view $bam 6:29909037-29913661 >> $outDir/chr6region.sam
+
+        $SAMTOOLS_DIR/samtools view $bam 6:31321649-31324964 >> $outDir/chr6region.sam
+
+        $SAMTOOLS_DIR/samtools view $bam 6:31236526-31239869 >> $outDir/chr6region.sam
+
+else
+
+        echo -n -e "build=hg18\n"
+
+        $SAMTOOLS_DIR/samtools view $bam chr6:30016016-30022640 >> $outDir/chr6region.sam
+
+        $SAMTOOLS_DIR/samtools view $bam chr6:31428628-31433943 >> $outDir/chr6region.sam
+
+        $SAMTOOLS_DIR/samtools view $bam chr6:31343505-31348848 >> $outDir/chr6region.sam
+
+fi
+
+$SAMTOOLS_DIR/samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
+
+$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
+
+$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
+
+$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.2.fastq
+
+# merge the two sets of fastqs
+
+echo -n -e "merge the two sets of fastqs\n"
+
+$PSHOME/scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
+
+rm -f $outDir/*sam
+
+# alignment
+
+echo -n -e "aligning to HLA library\n"
+
+cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
+
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0 $NOVOALIGN_DIR
+
+$SAMTOOLS_DIR/samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
+
+rm -f $outDir/nv.complete.chr6region.R0k6.sam
+
+echo -n -e "sorting\n"
+
+$JAVA_DIR/java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate TMP_DIR=$TMP_DIR
+
+t=`ls -lh $outDir/nv.complete.chr6region.R0k6.csorted.bam`
+echo -n -e "size of bam = $t\n"
+
+rm -f $outDir/nv.complete.chr6region.R0k6.bam
+
+$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.R0k6.csorted.bam
+
+# first allele calculations
+
+echo -n -e "calculating lik1\n"
+date
+
+$PSHOME/scripts/first_allele_calculations_fork.pl $ids $PSHOME $SAMTOOLS_DIR/samtools $NUM_THREADS $race $iFile $outDir
+
+date
+
+echo -n -e "get first winners\n"
+date
+
+rm $outDir/counts1.R0k6
+
+for i in $var; do
+        a=`tail -1 $outDir/$i.lik1 | cut -f2`
+        echo -n -e "$i\t$a\n" >> $outDir/counts1.R0k6
+done
+
+winner1_a=`sort -k2,2rn $outDir/counts1.R0k6 | grep hla_a | head -1 | cut -f1`
+winner1_b=`sort -k2,2rn $outDir/counts1.R0k6 | grep hla_b | head -1 | cut -f1`
+winner1_c=`sort -k2,2rn $outDir/counts1.R0k6 | grep hla_c | head -1 | cut -f1`
+
+date
+
+
+# second allele calculations
+
+echo -n -e "calculating lik2\n"
+
+$PSHOME/scripts/second_allele_calculations.pl $race $outDir/counts1.R0k6 $ids 1 $PSHOME $outDir
+
+date
+
+echo -n -e "get second winners\n"
+
+rm $outDir/counts2.R0k6
+
+for i in $var; do
+        a=`tail -1 $outDir/$i.lik2 | cut -f2`
+        echo -n -e "$i\t$a\n" >> $outDir/counts2.R0k6
+done
+
+winner2_a=`sort -k2,2rn $outDir/counts2.R0k6 | grep hla_a | head -1 | cut -f1`
+winner2_b=`sort -k2,2rn $outDir/counts2.R0k6 | grep hla_b | head -1 | cut -f1`
+winner2_c=`sort -k2,2rn $outDir/counts2.R0k6 | grep hla_c | head -1 | cut -f1`
+
+echo -n -e "winners1\t$winner1_a\t$winner1_b\t$winner1_c\n"
+echo -n -e "winners2\t$winner2_a\t$winner2_b\t$winner2_c\n"
+
+
+if [ $includeFreq == 1 ]; then
+
+	echo -n -e "HLA-A\t$winner1_a\t$winner2_a\nHLA-B\t$winner1_b\t$winner2_b\nHLA-C\t$winner1_c\t$winner2_c\n" > $outDir/winners.hla.txt
+
+else
+
+	echo -n -e "HLA-A\t$winner1_a\t$winner2_a\nHLA-B\t$winner1_b\t$winner2_b\nHLA-C\t$winner1_c\t$winner2_c\n" > $outDir/winners.hla.nofreq.txt
+fi
+
+
+# cleanup
+
+echo -n -e "cleanup\n"
+
+
+#rm -f $outDir/temp* &
+#rm -f $outDir/*sam &
+##rm -f  $outDir/tag*fastq0* $outDir/ids_* &
+##rm -rf $outDir/*REF* &
+#rm -rf $outDir/nv* &
+#rm -rf $outDir/*fastq &
+#rm -rf $outDir/tag* &
+#rm -rf $outDir/chr6region* &
+#rm -rf $outDir/merged* &
+#rm -rf $outDir/counts* &
+#rm -f $outDir/*lik1 $outDir/*lik2 &
+

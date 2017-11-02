@@ -1,0 +1,23 @@
+
+ids=$1
+race=$2
+PSHOME=$3
+SAMTOOLS=$4
+iFile=$5
+outDir=$6
+
+var=`cat $ids`
+
+count=0
+for i in $var; do
+        count=$[count+1]
+        #echo -n -e "$count\t$i\n"
+        $SAMTOOLS view -H $outDir/nv.complete.chr6region.R0k6.csorted.bam > $outDir/temp.$i.sam
+        $SAMTOOLS view $outDir/nv.complete.chr6region.R0k6.csorted.bam $i >> $outDir/temp.$i.sam
+        $SAMTOOLS view -bS -o $outDir/temp.$i.bam $outDir/temp.$i.sam
+        $SAMTOOLS sort -n $outDir/temp.$i.bam $outDir/nv.complete.chr6region.R0k6.csorted.REF_$i
+	$PSHOME/scripts/first_allele_calculations.pl $outDir/nv.complete.chr6region.R0k6.csorted.REF_$i.bam $PSHOME $SAMTOOLS $iFile $race $i 1 $outDir
+        rm -f $outDir/nv.complete.chr6region.R0k6.csorted.REF_$i.bam
+done
+
+

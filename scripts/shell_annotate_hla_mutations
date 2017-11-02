@@ -1,0 +1,35 @@
+
+
+#### check if an appropriate number of arguments were passed ####
+
+if [ $# -ne 2 ]; then
+        echo 1>&2 Usage: $0 indiv dir
+        echo "  -indiv: individual ID, used as prefix for output files"
+        echo "  -dir: directory containing the raw call files (Mutect: call_stats*, Strelka: *all.somatic.indels.vcf). Also the output directory"   
+     exit 127
+fi
+
+echo "Environment variables"
+echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
+echo "  -SAMTOOLS_DIR: directory containing the samtools executable = $SAMTOOLS_DIR"
+echo "  -JAVA_DIR: directory containing the JAVA_DIR executable"
+echo "  -NOVOALIGN_DIR: directory containing the Novoalign executables = $NOVOALIGN_DIR"
+echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
+
+
+indiv=$1
+dir=$2
+
+$PSHOME/scripts/annotate_hla_mutect.pl $indiv $dir $PSHOME/data/a_complete.3100.new.eb.fasta $PSHOME/data/b_complete.3100.new.eb.fasta $PSHOME/data/c_complete.3100.new.eb.fasta $PSHOME
+
+$PSHOME/scripts/filter_hla_mutect.pl $dir/$indiv.mutect.unfiltered.annotated $indiv $dir 0 $PSHOME
+ 
+$PSHOME/scripts/remove_synonymous_hla_mutect.pl $dir/$indiv.mutect.filtered.annotated $indiv $dir
+
+
+$PSHOME/scripts/annotate_hla_strelka_indels.pl $indiv $dir $PSHOME/data/a_complete.3100.new.eb.fasta $PSHOME/data/b_complete.3100.new.eb.fasta $PSHOME/data/c_complete.3100.new.eb.fasta $PSHOME
+
+$PSHOME/scripts/filter_hla_strelka_indels.pl $dir/$indiv.strelka_indels.unfiltered.annotated $indiv $dir $PSHOME
+
+rm -f $dir/*mutect.filtered.annotated
+
