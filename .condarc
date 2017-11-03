@@ -1,0 +1,7 @@
+channels:
+  - r
+  - defaults
+  - bioconda
+  - cyclus
+
+show_channel_urls: True

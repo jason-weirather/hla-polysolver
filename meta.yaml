@@ -1,0 +1,31 @@
+package:
+  name: hla-solver
+  version: "0.1.0"
+
+source:
+  git_rev: master
+  git_url: https://github.com/jason-weirather/hla-solver.git
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - r-essentials
+    - samtools
+    - strelka
+    - java-jre
+  run:
+    - python
+    - r-essentials
+    - samtools
+    - novoalign
+    - strelka
+    - java-jre
+
+about:
+  home: https://github.com/jason-weirather/hla-solver
+  license: BSD
+  license_file: LICENSE
