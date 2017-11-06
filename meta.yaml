@@ -1,5 +1,5 @@
 package:
-  name: polysolver
+  name: hla-polysolver
   version: "1.0.0"
 
 source:
@@ -12,15 +12,29 @@ build:
 requirements:
   build:
     - python 2.7.*
+    - perl 5.*
     - setuptools
+    - perl-posix
+    - perl-bioperl
+    - perl-list-util
+    - perl-list-moreutils
+    - perl-parallel-forkmanager
+    - perl-data-dumper
   run:
     - python 2.7.*
+    - perl 5.*
     - r-essentials
     - samtools
     - novoalign
     - strelka
     - mutect 1.1.*
     - java-jdk 7.*
+    - perl-posix
+    - perl-bioperl
+    - perl-list-util
+    - perl-list-moreutils
+    - perl-parallel-forkmanager
+    - perl-data-dumper
 
 about:
   home: https://github.com/jason-weirather/hla-polysolver
