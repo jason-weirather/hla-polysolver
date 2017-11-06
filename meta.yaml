@@ -4,7 +4,7 @@ package:
 
 source:
   git_rev: master
-  git_url: https://github.com/jason-weirather/polysolver.git
+  git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
   number: 0
@@ -23,6 +23,6 @@ requirements:
     - java-jdk 7.*
 
 about:
-  home: https://github.com/jason-weirather/polysolver
+  home: https://github.com/jason-weirather/hla-polysolver
   license: BSD
   license_file: LICENSE
