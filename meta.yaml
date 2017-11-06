@@ -23,7 +23,6 @@ requirements:
   run:
     - python 2.7.*
     - perl 5.22.*
-    - r-essentials
     - samtools
     - novoalign
     - strelka
