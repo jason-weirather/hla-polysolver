@@ -7,12 +7,12 @@ source:
   git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
-  number: 4
+  number: 5
 
 requirements:
   build:
     - perl 5.22.*
-    - perl-cpan-shell
+    - perl-app-cpanminus
   run:
     - python 2.7.*
     - perl 5.22.*
@@ -29,7 +29,6 @@ requirements:
     - perl-data-dumper
     - perl-bio-db-sam
     - perl-array-utils
-    - perl-cpan-shell
 about:
   home: https://github.com/jason-weirather/hla-polysolver
   license: BSD
