@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: /cga/wu/sachet/hla/hla_caller/keep_only_read_pairs.pl hla_c_07_01_01_01.1960.temp.sam temp.hla_c_07_01_01_01.1960.temp.sam
 # program assumes that the input sam file is sorted by read and has no header

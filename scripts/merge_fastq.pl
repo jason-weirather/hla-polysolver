@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: $PSHOME/scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
 

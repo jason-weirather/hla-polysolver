@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: ./filter_hla_strelka_indels.pl LUAD-TCGA-95-7562/LUAD-TCGA-95-7562.strelka_indels.unfiltered.annotated LUAD-TCGA-95-7562 LUAD-TCGA-95-7562 /cga/wu/sachet/hla/hla_caller/capture/polysolver_070914
 

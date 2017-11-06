@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: ./annotate_hla_mutect.pl HNSC-TCGA-BA-6873 HNSC-TCGA-BA-6873 /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/a_complete.3100.new.eb.fasta /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/b_complete.3100.new.eb.fasta /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/c_complete.3100.new.eb.fasta $PSHOME
 

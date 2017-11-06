@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: ./annotate_hla_strelka_indels.pl LUAD-TCGA-95-7562 LUAD-TCGA-95-7562 /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/a_complete.3100.new.eb.fasta /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/b_complete.3100.new.eb.fasta /cga/wu/sachet/hla/hla_caller/capture/polysolver_based_muts_080814/data/c_complete.3100.new.eb.fasta $PSHOME
 

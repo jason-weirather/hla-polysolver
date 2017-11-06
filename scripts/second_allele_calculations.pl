@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: $PSHOME/scripts/second_allele_calculations.pl $race counts1.R0k6 $ids 1 $PSHOME $outDir
 

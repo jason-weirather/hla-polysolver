@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: /cga/wu/sachet/hla/hla_caller/capture/code_base_041713/hla_oneline_fh_050713.pl winners.R0k6.scale23.hla hla.intervals
 

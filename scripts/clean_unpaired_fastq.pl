@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/scripts/clean_unpaired_fastq.pl NA07048.1.fastq
 

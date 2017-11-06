@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: ./filter_hla_mutect.pl HNSC-TCGA-BA-6873/HNSC-TCGA-BA-6873.mutect.unfiltered.annotated HNSC-TCGA-BA-6873 HNSC-TCGA-BA-6873 0 /cga/wu/sachet/hla/hla_caller/capture/polysolver_070914
 

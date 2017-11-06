@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/scripts/convertToStandard.pl winners.hla.txt inferred.alleles.txt $PSHOME
 

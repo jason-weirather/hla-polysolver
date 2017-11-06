@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/getWinnerScores.pl counts1.R0k6 $PSHOME
 

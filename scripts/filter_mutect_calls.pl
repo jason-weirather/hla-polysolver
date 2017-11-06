@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: ./filter_mutect_calls.pl out2 28 29 40 41 0 /cga/wu/sachet/hla/hla_caller/capture/polysolver_070914 choose_manually.txt
 

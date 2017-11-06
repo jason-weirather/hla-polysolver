@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: ./remove_synonymous_hla_mutect.pl HNSC-TCGA-BA-6873/HNSC-TCGA-BA-6873.mutect.filtered.annotated HNSC-TCGA-BA-6873 HNSC-TCGA-BA-6873
 

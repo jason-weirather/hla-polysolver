@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0 $NOVOALIGN_DIR
 

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 #usage: ./filter_strelka_indels.pl out1.indels.071614.all.txt /cga/wu/sachet/hla/hla_caller/capture/polysolver_070914 choose_manually.strelka.txt > out1.indels.071614.all.filt.txt
 

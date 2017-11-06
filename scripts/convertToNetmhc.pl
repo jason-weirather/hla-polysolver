@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/scripts/convertToNetmhc.pl winners.hla.txt inferred.alleles.netmhc.txt $PSHOME
 

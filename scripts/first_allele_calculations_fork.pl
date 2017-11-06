@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # usage: $PSHOME/first_allele_calculations_fork.pl $PSHOME/data/ids $PSHOME $SAMTOOLS 8 $race $iFile $outDir
 
