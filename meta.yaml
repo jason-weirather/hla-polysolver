@@ -12,7 +12,7 @@ build:
 requirements:
   build:
     - python 2.7.*
-    - perl 5.*
+    - perl
     - setuptools
     - perl-posix
     - perl-bioperl
@@ -22,7 +22,7 @@ requirements:
     - perl-data-dumper
   run:
     - python 2.7.*
-    - perl 5.*
+    - perl
     - r-essentials
     - samtools
     - novoalign
