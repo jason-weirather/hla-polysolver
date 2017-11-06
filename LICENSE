@@ -18,6 +18,33 @@ If, by operation of law or otherwise, any of the aforementioned warranty disclai
 
 In addition, POLYSOLVER is distributed, in part, under and subject to the provisions of license(s) for: GATK, © 2012-2014 Broad Institute, Inc. (all rights reserved); MuTect © 2012-2014 Broad Institute, Inc.  (all rights reserved); Novoalign, © 2014 Novocraft Technologies Sdn Bhd. (all rights reserved); eigentools, GPL v. 3 (all rights reserved); vcftools, © 2014 VCFtools (all rights reserved); samtools © 2008-2009 Genome Research, Ltd. (all rights reserved); PLINK, © 2006 Shaun Purcell (all rights reserved); PLINK/SEQ © 2014 PLINK/SEQ (all rights reserved); Strelka, © 2009-2013 Illumina, Inc. (all rights reserved); Bioperl, Perl Artistic License (all rights reserved).  Development of POLYSOLVER has been funded in whole or in part with funds from Stand Up to Cancer, under Grant No. SU2C-AACR-IRG1311.
 
+===============
+Picard License ... none found for 1.119 so including license from current picard release
+
+MIT License
+
+Copyright (c) 2017 Broad Institute
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===============
+
 Modifications to this fork are free for use, redistribute and modify under the Apache 2.0 License
 
 Copyright 2017 Jason L Weirather
