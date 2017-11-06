@@ -21,7 +21,7 @@ $tempSam = $inFile.".temp.sam";
 
 open FILE, ">$tempSam";
 
-@lines = `/cga/wu/sachet/software/samtools/samtools view -h $inFile`;
+@lines = `samtools view -h $inFile`;
 
 for($i = 0; $i <= $#lines; $i++){
 	#print "i=$i\n";
@@ -100,7 +100,7 @@ for($i = 0; $i <= $#lines; $i++){
 
 close FILE;
 
-system("/cga/wu/sachet/software/samtools/samtools view -bS -o $outFile $tempSam");
+system("samtools view -bS -o $outFile $tempSam");
 system("rm -f $tempSam");
 
 ########

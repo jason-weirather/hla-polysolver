@@ -4,7 +4,7 @@
 
 # this program assumes that the fastq files have already been cleaned by clean_unpaired_fastq.pl
 
-use lib "/cga/wu/sachet/software/lib/perl5/x86_64-linux";
+#use lib "/cga/wu/sachet/software/lib/perl5/x86_64-linux";
 use List::MoreUtils qw(uniq);
 use List::Util 'max';
 use List::Util 'min';
