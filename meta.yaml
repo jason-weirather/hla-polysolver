@@ -10,6 +10,9 @@ build:
   number: 2
 
 requirements:
+  build:
+    - perl 5.22.*
+    - perl-cpan-shell
   run:
     - python 2.7.*
     - perl 5.22.*
@@ -26,6 +29,7 @@ requirements:
     - perl-data-dumper
     - perl-bio-db-sam
     - perl-array-utils
+    - perl-cpan-shell
 about:
   home: https://github.com/jason-weirather/hla-polysolver
   license: BSD
