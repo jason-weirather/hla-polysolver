@@ -1,6 +1,15 @@
-# This is a fork.
-
 ## This is **NOT** the distribution site for Polysolver software. This is a modification made for pipeline incorperation from v1.0.  If you're looking for Polysolver please see:
+
+## hla-polysolver
+
+Changes from polysolver v1.0
+
+1. Added added build recipie for conda
+2. Remove absolute path references that break the run
+3. Remove dependency environment variables when having the proper versions installed can suffice
+4. Added old picard tools dependency (what polysolver referred to as GATK)
+5. Updated data to include necessary fastas to complete mutation calling pipeline (part 2 of polysolver)
+6. Removed the .nix hla index file thats too big for github, now its built in conda's build.sh
 
 http://archive.broadinstitute.org/cancer/cga/polysolver
 
