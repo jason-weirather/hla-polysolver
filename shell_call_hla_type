@@ -1,5 +1,7 @@
 #!/bin/sh
 
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #### check if an appropriate number of arguments were passed ####
 
 if [ $# -ne 7 ]; then
@@ -15,7 +17,6 @@ if [ $# -ne 7 ]; then
 fi
 
 echo "Environment variables"
-echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
 echo "  -DATA_DIR: POLYSOLVER data directory = $DATA_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
@@ -58,7 +59,7 @@ date
 
 echo -n -e "calculating lik2\n"
 
-$PSHOME/scripts/second_allele_calculations.pl $race $outDir/counts1.R0k6 $ids 1 $PSHOME $outDir
+$DIR/../scripts/second_allele_calculations.pl $race $outDir/counts1.R0k6 $ids 1 $DIR/.. $outDir
 
 date
 

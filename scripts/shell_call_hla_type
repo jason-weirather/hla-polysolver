@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #### check if an appropriate number of arguments were passed ####
 
 if [ $# -ne 7 ]; then
@@ -15,7 +17,6 @@ if [ $# -ne 7 ]; then
 fi
 
 echo "Environment variables"
-echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
 echo "  -DATA_DIR: DATA_DIR data directory = $DATA_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
@@ -65,9 +66,9 @@ samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
 
 #getting chr6 region
 
@@ -101,15 +102,15 @@ samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.2.fastq
 
 # merge the two sets of fastqs
 
 echo -n -e "merge the two sets of fastqs\n"
 
-$PSHOME/scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
+$DIR/../scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
 
 rm -f $outDir/*sam
 
@@ -119,7 +120,7 @@ echo -n -e "aligning to HLA library\n"
 
 cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
+$DIR/../scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
 samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
@@ -141,7 +142,7 @@ samtools index $outDir/nv.complete.chr6region.R0k6.csorted.bam
 echo -n -e "calculating lik1\n"
 date
 
-$PSHOME/scripts/first_allele_calculations_fork.pl $ids $PSHOME samtools $NUM_THREADS $race $iFile $outDir
+$DIR/../scripts/first_allele_calculations_fork.pl $ids $DIR/.. samtools $NUM_THREADS $race $iFile $outDir
 
 date
 
@@ -166,7 +167,7 @@ date
 
 echo -n -e "calculating lik2\n"
 
-$PSHOME/scripts/second_allele_calculations.pl $race $outDir/counts1.R0k6 $ids 1 $PSHOME $outDir
+$DIR/../scripts/second_allele_calculations.pl $race $outDir/counts1.R0k6 $ids 1 $DIR/.. $outDir
 
 date
 
@@ -202,15 +203,15 @@ fi
 echo -n -e "cleanup\n"
 
 
-#rm -f $outDir/temp* &
-#rm -f $outDir/*sam &
-##rm -f  $outDir/tag*fastq0* $outDir/ids_* &
-##rm -rf $outDir/*REF* &
-#rm -rf $outDir/nv* &
-#rm -rf $outDir/*fastq &
-#rm -rf $outDir/tag* &
-#rm -rf $outDir/chr6region* &
-#rm -rf $outDir/merged* &
-#rm -rf $outDir/counts* &
-#rm -f $outDir/*lik1 $outDir/*lik2 &
+rm -f $outDir/temp* &
+rm -f $outDir/*sam &
+#rm -f  $outDir/tag*fastq0* $outDir/ids_* &
+#rm -rf $outDir/*REF* &
+rm -rf $outDir/nv* &
+rm -rf $outDir/*fastq &
+rm -rf $outDir/tag* &
+rm -rf $outDir/chr6region* &
+rm -rf $outDir/merged* &
+rm -rf $outDir/counts* &
+rm -f $outDir/*lik1 $outDir/*lik2 &
 
