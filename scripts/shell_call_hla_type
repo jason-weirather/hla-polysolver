@@ -123,13 +123,11 @@ $PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $
 
 samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
-#### rm -f $outDir/nv.complete.chr6region.R0k6.sam
+rm -f $outDir/nv.complete.chr6region.R0k6.sam
 
 echo -n -e "sorting\n"
 
 java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate TMP_DIR=$TMP_DIR
-
-exit 1
 
 t=`ls -lh $outDir/nv.complete.chr6region.R0k6.csorted.bam`
 echo -n -e "size of bam = $t\n"
