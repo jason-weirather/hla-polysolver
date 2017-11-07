@@ -7,12 +7,13 @@ source:
   git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
-  number: 5
+  number: 6
 
 requirements:
   build:
     - perl 5.22.*
     - perl-app-cpanminus
+    - novoalign
   run:
     - python 2.7.*
     - perl 5.22.*
