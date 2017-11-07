@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+# Get this scripts directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #### check if an appropriate number of arguments were passed ####
 
@@ -14,7 +18,6 @@ fi
 
 
 echo "Environment variables"
-echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -MUTECT_DIR: directory containing the MuTect executable = $MUTECT_DIR"
 echo "  -STRELKA_DIR: directory containing the Strelka file = $STRELKA_DIR"
@@ -43,9 +46,9 @@ samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
 
 #getting chr6 region
 
@@ -79,15 +82,15 @@ samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.2.fastq
 
 # merge the two sets of fastqs
 
 echo -n -e "merge the two sets of fastqs\n"
 
-$PSHOME/scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
+$DIR/../scripts/merge_fastq.pl $outDir/tag $outDir/chr6region $outDir/merged
 
 rm -f *sam
 
@@ -97,7 +100,7 @@ echo -n -e "aligning to HLA library\n"
 
 cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
+$DIR/../scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
 #/broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $DATA_DIR/abc_complete.nix -f merged.1.fastq merged.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.R0k6.sam
 
@@ -140,9 +143,9 @@ samtools view -bS -o $outDir/tag.tumor.bam $outDir/tag.tumor.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.tumor.bam F=$outDir/tag.tumor.1.fastq F2=$outDir/tag.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.2.fastq
 
 #getting chr6 region
 
@@ -176,15 +179,15 @@ samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
 java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.tumor.1.fastq F2=$outDir/chr6region.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.tumor.1.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.tumor.1.fastq
 
-$PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.tumor.2.fastq
+$DIR/../scripts/clean_unpaired_fastq.pl $outDir/chr6region.tumor.2.fastq
 
 # merge the two sets of fastqs
 
 echo -n -e "merge the two sets of fastqs\n"
 
-$PSHOME/scripts/merge_fastq.pl $outDir/tag.tumor $outDir/chr6region.tumor $outDir/merged.tumor
+$DIR/../scripts/merge_fastq.pl $outDir/tag.tumor $outDir/chr6region.tumor $outDir/merged.tumor
 
 rm -f $outDir/*sam
 
@@ -195,7 +198,7 @@ echo -n -e "aligning to HLA library\n"
 
 cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0
+$DIR/../scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0
 
 #/broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $DATA_DIR/abc_complete.nix -f merged.tumor.1.fastq merged.tumor.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.tumor.R0k6.sam
 
@@ -235,9 +238,9 @@ java -jar $GATK_DIR/AddOrReplaceReadGroups.jar I=$tumorBam O=$outDir/nv.complete
 
 echo -n -e "changing flags and mapping quality\n"
 
-$PSHOME/scripts/filterReads.pl $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.rm.tag.bam 1
+$DIR/../scripts/filterReads.pl $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.rm.tag.bam 1
 
-$PSHOME/scripts/filterReads.pl $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.rm.tag.bam 1
+$DIR/../scripts/filterReads.pl $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.rm.tag.bam 1
 
 echo -n -e "indexing\n"
 
@@ -245,7 +248,7 @@ samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.rm.tag.bam
 
 samtools index $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.rm.tag.bam
 
-$PSHOME/scripts/hlaOneline.pl $hlaFile $outDir/hla.intervals
+$DIR/../scripts/hlaOneline.pl $hlaFile $outDir/hla.intervals
 
 
 echo -n -e "get type bams\n"
@@ -265,7 +268,7 @@ for allele in $var; do
         more $DATA_DIR/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.tumor.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.tumor.sam
         samtools view $tumorBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele.tumor
-        $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele.tumor $outDir/temp.$allele.tumor2
+        $DIR/../scripts/keep_only_read_pairs.pl $outDir/temp.$allele.tumor $outDir/temp.$allele.tumor2
         cat $outDir/temp.$allele.tumor2 >> $outDir/temp.$allele.tumor.sam
         samtools view -bS -o $outDir/temp.$allele.tumor.bam $outDir/temp.$allele.tumor.sam
         samtools sort $outDir/temp.$allele.tumor.bam $outDir/type.$allele.tumor
@@ -277,7 +280,7 @@ for allele in $var; do
         more $DATA_DIR/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.sam
         samtools view $normalBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele
-        $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele $outDir/temp.$allele.2
+        $DIR/../scripts/keep_only_read_pairs.pl $outDir/temp.$allele $outDir/temp.$allele.2
         cat $outDir/temp.$allele.2 >> $outDir/temp.$allele.sam
         samtools view -bS -o $outDir/temp.$allele.bam $outDir/temp.$allele.sam
         samtools sort $outDir/temp.$allele.bam $outDir/type.$allele
@@ -298,7 +301,7 @@ for allele in $var; do
 
         # run strelka
         echo -n -e "strelka: $allele\n"
-        $STRELKA_DIR/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$DATA_DIR/abc_complete.fasta --config=$STRELKA_DIR/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
+        $DIR/../scripts/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$DATA_DIR/abc_complete.fasta --config=$DIR/../scripts/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
                 make -C $outDir/strelka.$allele
                 cp $outDir/strelka.$allele/results/all.somatic.indels.vcf $outDir/$allele.all.somatic.indels.vcf
 
@@ -307,14 +310,14 @@ done
 
 echo -n -e "cleanup\n"
 
-rm -rf $outDir/chr*bam* &
-rm -rf $outDir/tag*bam* &
-rm -rf $outDir/*sam &
-rm -rf $outDir/nv.complete.chr6region.R0k6.bam.* &
-rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.bam.* &
-rm -rf $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam.* &
-rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam.* &
-rm -rf $outDir/strelka* $outDir/type* $outDir/cov* $outDir/nv* &
-rm -rf $outDir/temp* $outDir/tag* $outDir/chr6* $outDir/merged* &
-rm -rf $outDir/hla.output* &
+#rm -rf $outDir/chr*bam* &
+#rm -rf $outDir/tag*bam* &
+#rm -rf $outDir/*sam &
+#rm -rf $outDir/nv.complete.chr6region.R0k6.bam.* &
+#rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.bam.* &
+#rm -rf $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam.* &
+#rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam.* &
+#rm -rf $outDir/strelka* $outDir/type* $outDir/cov* $outDir/nv* &
+#rm -rf $outDir/temp* $outDir/tag* $outDir/chr6* $outDir/merged* &
+#rm -rf $outDir/hla.output* &
 

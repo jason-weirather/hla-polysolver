@@ -4,6 +4,7 @@ cpanm -i Math::BaseCalc
 mkdir -p $PREFIX/bin/
 mkdir -p $PREFIX/jar/
 mkdir -p $PREFIX/share/
+mkdir -p $PREFIX/share/strelka
 mkdir -p $PREFIX/scripts/
 echo "Adding picard jar files"
 cp $SRC_DIR/src/picard/* $PREFIX/jar/
@@ -13,3 +14,10 @@ echo "Rebuilding novoalign index"
 novoindex $PREFIX/share/polysolver_data/abc_complete.nix $PREFIX/share/polysolver_data/abc_complete.fasta
 echo "Put scripts into the polysolver build"
 cp $SRC_DIR/scripts/* $PREFIX/scripts/
+echo "Build strelka"
+
+cd include/ && \
+  tar -xzf strelka-upstream-v1.0.11.tar.gz && \
+  cd strelka-upstream-v1.0.11 && \
+  ./configure --prefix=$PREFIX/share/strelka && \
+  make
