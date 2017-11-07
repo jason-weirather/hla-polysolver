@@ -17,7 +17,7 @@ $includeFreq = $ARGV[3];
 $PSHOME = $ARGV[4];
 $outDir = $ARGV[5];
 $scale = exp(23);
-$freqFile = $PSHOME."/"."data/HLA_FREQ.txt";
+$freqFile = $ENV{'DATA_DIR'}."/HLA_FREQ.txt";
 $offset = 0;
 $scoreCol = 3;
 

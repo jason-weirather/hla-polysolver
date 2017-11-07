@@ -32,7 +32,7 @@ if(!($includeFreq == 0 || $includeFreq == 1)){
 #}
 
 $scale = exp(23);
-$freqFile = $PSHOME."/"."data/HLA_FREQ.txt"; 
+$freqFile = $ENV{'DATA_DIR'}."/HLA_FREQ.txt"; 
 
 if($includeFreq == 1){ # will always be 0 if race is other than Caucasian, Black, Asian
 	$outFile = $outDir."/".$allele.".lik1";

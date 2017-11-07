@@ -16,6 +16,7 @@ fi
 
 echo "Environment variables"
 echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
+echo "  -DATA_DIR: POLYSOLVER data directory = $DATA_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
                                                                    
@@ -27,8 +28,8 @@ format=$5
 insertCalc=$6
 outDir=$7
 
-ids=$PSHOME/data/ids
-tag_file=$PSHOME/data/abc_v14.uniq
+ids=$DATA_DIR/ids
+tag_file=$DATA_DIR/abc_v14.uniq
 
 
 mkdir $outDir

@@ -60,9 +60,9 @@ for($i = 0; $i < $nFork; $i++){
         }
 
 	if($softClip == 0){
-		`time novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' > $samPrefix$suffix`;
+		`novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' > $samPrefix$suffix`;
 	} else{
-		`time novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -g 20 -x 3 | grep -P '\thla' > $samPrefix$suffix`;
+		`novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -g 20 -x 3 | grep -P '\thla' > $samPrefix$suffix`;
 	}
 	
 	$pm->finish;

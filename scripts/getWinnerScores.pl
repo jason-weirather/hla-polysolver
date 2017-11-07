@@ -17,7 +17,7 @@ $sortedFile = $file.".sorted";
 system("rm -f $sortedFile");
 system("sort -k2,2rn $file > $sortedFile");
 
-$freqFile = $PSHOME."/data/HLA_FREQ.txt";
+$freqFile = $ENV{'DATA_DIR'}."/HLA_FREQ.txt";
 $scale=exp(23);
 
 print "sortedFile=$sortedFile\toutFile=$outFile\n";

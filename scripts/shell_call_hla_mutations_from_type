@@ -27,7 +27,7 @@ hla=$3
 build=$4
 format=$5
 outDir=$6
-tag_file=$PSHOME/data/abc_38_both_pm_update.uniq
+tag_file=$DATA_DIR/abc_38_both_pm_update.uniq
 
 ######################################### align normal_bam_hla #####################################################
 
@@ -95,11 +95,11 @@ rm -f *sam
 
 echo -n -e "aligning to HLA library\n"
 
-cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
+cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
-#time /broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $PSHOME/data/abc_complete.nix -f merged.1.fastq merged.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.R0k6.sam
+#/broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $DATA_DIR/abc_complete.nix -f merged.1.fastq merged.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.R0k6.sam
 
 samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
@@ -193,11 +193,11 @@ rm -f $outDir/*sam
 echo -n -e "aligning to HLA library\n"
 
 
-cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.tumor.R0k6.sam
+cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0
 
-#time /broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $PSHOME/data/abc_complete.nix -f merged.tumor.1.fastq merged.tumor.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.tumor.R0k6.sam
+#/broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $DATA_DIR/abc_complete.nix -f merged.tumor.1.fastq merged.tumor.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.tumor.R0k6.sam
 
 samtools view -bS -o $outDir/nv.complete.chr6region.tumor.R0k6.bam $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
@@ -260,9 +260,9 @@ for allele in $var; do
 
         echo -n -e "creating type bams for $allele\n"
 
-        more $PSHOME/data/novoalign_complete_header.sam | grep "\@HD" > $outDir/temp.$allele.tumor.sam
-        more $PSHOME/data/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.tumor.sam
-        more $PSHOME/data/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.tumor.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep "\@HD" > $outDir/temp.$allele.tumor.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.tumor.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.tumor.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.tumor.sam
         samtools view $tumorBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele.tumor
         $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele.tumor $outDir/temp.$allele.tumor2
@@ -272,9 +272,9 @@ for allele in $var; do
         samtools index $outDir/type.$allele.tumor.bam
         rm -rf $outDir/temp.$allele.tumor.*
 
-        more $PSHOME/data/novoalign_complete_header.sam | grep "\@HD" > $outDir/temp.$allele.sam
-        more $PSHOME/data/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.sam
-        more $PSHOME/data/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep "\@HD" > $outDir/temp.$allele.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.sam
+        more $DATA_DIR/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.sam
         samtools view $normalBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele
         $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele $outDir/temp.$allele.2
@@ -288,7 +288,7 @@ for allele in $var; do
         echo -n -e "mutect: $allele\n"
         java -Xmx2g -jar $MUTECT_DIR/muTect-1.1.6.jar \
         --analysis_type MuTect \
-        --reference_sequence $PSHOME/data/complete/$allele.fasta \
+        --reference_sequence $DATA_DIR/complete/$allele.fasta \
         --input_file:normal $outDir/type.$allele.bam \
         --input_file:tumor $outDir/type.$allele.tumor.bam \
         --out $outDir/call_stats.$allele.out \
@@ -298,7 +298,7 @@ for allele in $var; do
 
         # run strelka
         echo -n -e "strelka: $allele\n"
-        $STRELKA_DIR/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$PSHOME/data/abc_complete.fasta --config=$STRELKA_DIR/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
+        $STRELKA_DIR/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$DATA_DIR/abc_complete.fasta --config=$STRELKA_DIR/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
                 make -C $outDir/strelka.$allele
                 cp $outDir/strelka.$allele/results/all.somatic.indels.vcf $outDir/$allele.all.somatic.indels.vcf
 

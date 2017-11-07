@@ -17,7 +17,7 @@ $lib = $PSHOME."/scripts/common_functions_typing.pl";
 require $lib;
 
 $scale = exp(23);
-$freqFile = $PSHOME."/"."data/HLA_FREQ.txt";
+$freqFile = $ENV{'DATA_DIR'}."/HLA_FREQ.txt";
 
 # get hla frequencies
 

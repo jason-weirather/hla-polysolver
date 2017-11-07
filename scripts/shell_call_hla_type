@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #### check if an appropriate number of arguments were passed ####
 
@@ -16,6 +16,7 @@ fi
 
 echo "Environment variables"
 echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
+echo "  -DATA_DIR: DATA_DIR data directory = $DATA_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
                                                                    
@@ -27,8 +28,8 @@ format=$5
 insertCalc=$6
 outDir=$7
 
-ids=$PSHOME/data/ids
-tag_file=$PSHOME/data/abc_v14.uniq
+ids=$DATA_DIR/ids
+tag_file=$DATA_DIR/abc_v14.uniq
 
 
 mkdir $outDir
@@ -116,17 +117,19 @@ rm -f $outDir/*sam
 
 echo -n -e "aligning to HLA library\n"
 
-cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
+cat $DATA_DIR/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $DATA_DIR/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
 samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
-rm -f $outDir/nv.complete.chr6region.R0k6.sam
+#### rm -f $outDir/nv.complete.chr6region.R0k6.sam
 
 echo -n -e "sorting\n"
 
 java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate TMP_DIR=$TMP_DIR
+
+exit 1
 
 t=`ls -lh $outDir/nv.complete.chr6region.R0k6.csorted.bam`
 echo -n -e "size of bam = $t\n"
