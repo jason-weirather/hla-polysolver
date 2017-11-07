@@ -7,7 +7,7 @@ source:
   git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
-  number: 6
+  number: 7
 
 requirements:
   build:
@@ -17,10 +17,10 @@ requirements:
   run:
     - python 2.7.*
     - perl 5.22.*
-    - samtools 0.1.18
+    - samtools <=0.1.18
     - novoalign
     - strelka
-    - mutect 1.1.6
+    - mutect <=1.1.6
     - java-jdk 7.*
     - perl-posix
     - perl-bioperl
