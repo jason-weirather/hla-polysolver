@@ -14,6 +14,7 @@ requirements:
     - perl 5.22.*
     - perl-app-cpanminus
     - novoalign
+    - gcc
   run:
     - python 2.7.*
     - perl 5.22.*

@@ -15,7 +15,6 @@ novoindex $PREFIX/share/polysolver_data/abc_complete.nix $PREFIX/share/polysolve
 echo "Put scripts into the polysolver build"
 cp $SRC_DIR/scripts/* $PREFIX/scripts/
 echo "Build strelka"
-
 cd include/ && \
   tar -xzf strelka-upstream-v1.0.11.tar.gz && \
   cd strelka-upstream-v1.0.11 && \
