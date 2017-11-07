@@ -1,5 +1,13 @@
 ## This is **NOT** the distribution site for Polysolver software. This is a modification made for pipeline incorperation from v1.0.  If you're looking for Polysolver please see:
 
+http://archive.broadinstitute.org/cancer/cga/polysolver
+
+> Shukla SA, Rooney MS, Rajasagi M, Tiao G, Dixon PM, Lawrence MS, Stevens J, Lane WJ, Dellagatta JL, Steelman S, Sougnez C, Cibulskis K, Kiezun A, Hacohen N, Brusic V, Wu CJ, Getz G. Comprehensive analysis of cancer-associated somatic mutations in class I HLA genes. Nat Biotechnol. 2015 Nov;33(11):1152-8. PubMed PMID: 26372948; PubMed Central PMCID: PMC4747795.
+
+https://www.ncbi.nlm.nih.gov/pubmed/26372948
+
+If you want to run Polysolver, you should use the above, and if you are using this as part of a pipeline be sure to see and appropriately site the above Polysolver software and publication. This fork is a modification under the "BSD-style License" included with Polysolver with the purpose of maintaing a stable platform for supplying the required files for to work with the HLALOH pipeline (McGranahan N., et. al. https://doi.org/10.1016/j.cell.2017.10.001) and other pipelines. The mutual requirements include legacy versions of dependencies that are not described in the manuals so this *hla-solver* fork is intended to provide a clear connection to those undocumented dependencies and ease their depolyment on conda and docker environments. This fork was generated from v1.0 Polysolver and is not affiliated with Polysolver or the Broad Institute. Please see `LICENSE` for the particular requirements and respect the license requirements of the dependencies. Modifications made in this fork are free to use reuse and modify.
+
 ## hla-polysolver
 
 Changes from polysolver v1.0
@@ -10,14 +18,6 @@ Changes from polysolver v1.0
 4. Added old picard tools dependency (what polysolver referred to as GATK)
 5. Updated data to include necessary fastas to complete mutation calling pipeline (part 2 of polysolver)
 6. Removed the .nix hla index file thats too big for github, now its built in conda's build.sh
-
-http://archive.broadinstitute.org/cancer/cga/polysolver
-
-> Shukla SA, Rooney MS, Rajasagi M, Tiao G, Dixon PM, Lawrence MS, Stevens J, Lane WJ, Dellagatta JL, Steelman S, Sougnez C, Cibulskis K, Kiezun A, Hacohen N, Brusic V, Wu CJ, Getz G. Comprehensive analysis of cancer-associated somatic mutations in class I HLA genes. Nat Biotechnol. 2015 Nov;33(11):1152-8. PubMed PMID: 26372948; PubMed Central PMCID: PMC4747795.
-
-https://www.ncbi.nlm.nih.gov/pubmed/26372948
-
-If you want to run Polysolver, you should use the above, and if you are using this as part of a pipeline be sure to see and appropriately site the above Polysolver software and publication. This fork is a modification under the "BSD-style License" included with Polysolver with the purpose of maintaing a stable platform for supplying the required files for to work with the HLALOH pipeline (McGranahan N., et. al. https://doi.org/10.1016/j.cell.2017.10.001) and other pipelines. The mutual requirements include legacy versions of dependencies that are not described in the manuals so this *hla-solver* fork is intended to provide a clear connection to those undocumented dependencies and ease their depolyment on conda and docker environments. This fork was generated from v1.0 Polysolver and is not affiliated with Polysolver or the Broad Institute. Please see `LICENSE` for the particular requirements and respect the license requirements of the dependencies. Modifications made in this fork are free to use reuse and modify.
 
 #### TABLE OF CONTENTS ####
 1. Description
