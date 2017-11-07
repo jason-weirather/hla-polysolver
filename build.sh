@@ -1,7 +1,11 @@
 echo "Running the build.sh Script"
+echo "Adding perl scripts"
 cpanm -i Math::BaseCalc
-mkdir -p $PREFIX/opt/
-mkdir -p $PREFIX/shared/
-cp $SRC_DIR/src/picard/* $PREFIX/opt/
-cp -r $SRC_DIR/data/ $PREFIX/shared/polysolver_data
-novoindex $PREFIX/shared/polysolver_data/abc_complete.nix $PREFIX/shared/polysolver_data/abc_complete.fasta
+mkdir -p $PREFIX/jar/
+mkdir -p $PREFIX/share/
+echo "Adding picard jar files"
+cp $SRC_DIR/src/picard/* $PREFIX/jar/
+echo "Adding polysolver data"
+cp -r $SRC_DIR/data/ $PREFIX/share/polysolver_data
+echo "Rebuilding novoalign index"
+novoindex $PREFIX/share/polysolver_data/abc_complete.nix $PREFIX/share/polysolver_data/abc_complete.fasta

@@ -1,3 +1,4 @@
+out/
 # Index could be built user-side
 data/abc_complete.nix
 
