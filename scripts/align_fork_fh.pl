@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# usage: $PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0 $NOVOALIGN_DIR
+# usage: $PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
 
 use Parallel::ForkManager;
@@ -13,7 +13,6 @@ $format = $ARGV[3];
 $nixFile = $ARGV[4];
 $samPrefix = $ARGV[5];
 $softClip = $ARGV[6];
-$NOVOALIGN_DIR = $ARGV[7];
 $digits = 2;
 
 $n1=`wc -l $f1`;
@@ -60,13 +59,10 @@ for($i = 0; $i < $nFork; $i++){
                 }
         }
 
-	$novoalignPath = $NOVOALIGN_DIR."/novoalign";
-	print "novoalignPath=$novoalignPath\n";
-
 	if($softClip == 0){
-		`time $novoalignPath -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' > $samPrefix$suffix`;
+		`time novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' > $samPrefix$suffix`;
 	} else{
-		`time $novoalignPath -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -g 20 -x 3 | grep -P '\thla' > $samPrefix$suffix`;
+		`time novoalign -d $nixFile -f $f1$suffix $f2$suffix -F $format -R 0 -r all -o SAM -g 20 -x 3 | grep -P '\thla' > $samPrefix$suffix`;
 	}
 	
 	$pm->finish;

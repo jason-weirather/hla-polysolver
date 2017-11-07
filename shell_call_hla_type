@@ -16,9 +16,6 @@ fi
 
 echo "Environment variables"
 echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
-echo "  -SAMTOOLS_DIR: directory containing the samtools executable = $SAMTOOLS_DIR"
-echo "  -JAVA_DIR: directory containing the JAVA_DIR executable"
-echo "  -NOVOALIGN_DIR: directory containing the Novoalign executables = $NOVOALIGN_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
                                                                    

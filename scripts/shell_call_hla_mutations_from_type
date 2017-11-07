@@ -15,9 +15,6 @@ fi
 
 echo "Environment variables"
 echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
-echo "  -SAMTOOLS_DIR: directory containing the samtools executable = $SAMTOOLS_DIR"
-echo "  -JAVA_DIR: directory containing the JAVA_DIR executable"
-echo "  -NOVOALIGN_DIR: directory containing the Novoalign executables = $NOVOALIGN_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -MUTECT_DIR: directory containing the MuTect executable = $MUTECT_DIR"
 echo "  -STRELKA_DIR: directory containing the Strelka file = $STRELKA_DIR"
@@ -38,13 +35,13 @@ tag_file=$PSHOME/data/abc_38_both_pm_update.uniq
 
 echo -n -e "getting matching tags\n"
 
-$SAMTOOLS_DIR/samtools view -H $normal_bam_hla > $outDir/tag.sam
+samtools view -H $normal_bam_hla > $outDir/tag.sam
 
-$SAMTOOLS_DIR/samtools view $normal_bam_hla | grep -F -f $tag_file >> $outDir/tag.sam
+samtools view $normal_bam_hla | grep -F -f $tag_file >> $outDir/tag.sam
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
+samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
 
@@ -54,33 +51,33 @@ $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
 
 echo -n -e "getting chr6 region\n"
 
-$SAMTOOLS_DIR/samtools view -H $normal_bam_hla > $outDir/chr6region.sam
+samtools view -H $normal_bam_hla > $outDir/chr6region.sam
 
 if [ $build == "hg19" ]; then
 
         echo -n -e "build=hg19\n"
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla 6:29909037-29913661 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla 6:29909037-29913661 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla 6:31321649-31324964 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla 6:31321649-31324964 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla 6:31236526-31239869 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla 6:31236526-31239869 >> $outDir/chr6region.sam
 
 else
 
         echo -n -e "build=hg18\n"
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla chr6:30016016-30022640 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla chr6:30016016-30022640 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla chr6:31428628-31433943 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla chr6:31428628-31433943 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $normal_bam_hla chr6:31343505-31348848 >> $outDir/chr6region.sam
+        samtools view $normal_bam_hla chr6:31343505-31348848 >> $outDir/chr6region.sam
 
 fi
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
+samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
 
@@ -100,21 +97,21 @@ echo -n -e "aligning to HLA library\n"
 
 cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0 $NOVOALIGN_DIR
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
 #time /broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $PSHOME/data/abc_complete.nix -f merged.1.fastq merged.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.R0k6.sam
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
+samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
 rm -f $outDir/nv.complete.chr6region.R0k6.sam
 
 echo -n -e "removing duplicates\n"
 
-$JAVA_DIR/java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate
+java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate
 
-#$JAVA_DIR/$JAVA_DIR/java -Xmx12g -Xms5g -jar $GATK_DIR/MarkDuplicates.jar I=nv.complete.chr6region.R0k6.csorted.bam O=nv.complete.chr6region.R0k6.csorted.nodup.bam M=dup.txt REMOVE_DUPLICATES=TRUE TMP_DIR=/broad/hptmp/firehose VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true
+#java -Xmx12g -Xms5g -jar $GATK_DIR/MarkDuplicates.jar I=nv.complete.chr6region.R0k6.csorted.bam O=nv.complete.chr6region.R0k6.csorted.nodup.bam M=dup.txt REMOVE_DUPLICATES=TRUE TMP_DIR=/broad/hptmp/firehose VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true
 
-$SAMTOOLS_DIR/samtools rmdup $outDir/nv.complete.chr6region.R0k6.csorted.bam $outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam
+samtools rmdup $outDir/nv.complete.chr6region.R0k6.csorted.bam $outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam
 
 t=`ls -lh $outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam`
 echo -n -e "size of bam = $t\n"
@@ -126,7 +123,7 @@ echo -n -e "indexing aligned file\n"
 
 date
 
-$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam
+samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam
 
 
 ########################################## align tumor_bam_hla #####################################################
@@ -135,13 +132,13 @@ $SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.b
 
 echo -n -e "getting matching tags\n"
 
-$SAMTOOLS_DIR/samtools view -H $tumor_bam_hla > $outDir/tag.tumor.sam
+samtools view -H $tumor_bam_hla > $outDir/tag.tumor.sam
 
-$SAMTOOLS_DIR/samtools view $tumor_bam_hla | grep -F -f $tag_file >> $outDir/tag.tumor.sam
+samtools view $tumor_bam_hla | grep -F -f $tag_file >> $outDir/tag.tumor.sam
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/tag.tumor.bam $outDir/tag.tumor.sam
+samtools view -bS -o $outDir/tag.tumor.bam $outDir/tag.tumor.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.tumor.bam F=$outDir/tag.tumor.1.fastq F2=$outDir/tag.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.tumor.bam F=$outDir/tag.tumor.1.fastq F2=$outDir/tag.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.1.fastq
 
@@ -151,33 +148,33 @@ $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.tumor.2.fastq
 
 echo -n -e "getting chr6 region\n"
 
-$SAMTOOLS_DIR/samtools view -H $tumor_bam_hla > $outDir/chr6region.sam
+samtools view -H $tumor_bam_hla > $outDir/chr6region.sam
 
 if [ $build == "hg19" ]; then
 
         echo -n -e "build=hg19\n"
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla 6:29909037-29913661 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla 6:29909037-29913661 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla 6:31321649-31324964 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla 6:31321649-31324964 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla 6:31236526-31239869 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla 6:31236526-31239869 >> $outDir/chr6region.sam
 
 else
 
         echo -n -e "build=hg18\n"
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla chr6:30016016-30022640 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla chr6:30016016-30022640 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla chr6:31428628-31433943 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla chr6:31428628-31433943 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $tumor_bam_hla chr6:31343505-31348848 >> $outDir/chr6region.sam
+        samtools view $tumor_bam_hla chr6:31343505-31348848 >> $outDir/chr6region.sam
 
 fi
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
+samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.tumor.1.fastq F2=$outDir/chr6region.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.tumor.1.fastq F2=$outDir/chr6region.tumor.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.tumor.1.fastq
 
@@ -198,21 +195,21 @@ echo -n -e "aligning to HLA library\n"
 
 cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0 $NOVOALIGN_DIR
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.tumor.1.fastq $outDir/merged.tumor.2.fastq $NUM_THREADS STDFQ $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.tumor.R0k6.sam 0
 
 #time /broad/software/free/Linux/redhat_5_x86_64/pkgs/novocraft-2.07.18/novoalign -d $PSHOME/data/abc_complete.nix -f merged.tumor.1.fastq merged.tumor.2.fastq -F $format -R 0 -r all -o SAM -o FullNW | grep -P '\thla' >> nv.complete.chr6region.tumor.R0k6.sam
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/nv.complete.chr6region.tumor.R0k6.bam $outDir/nv.complete.chr6region.tumor.R0k6.sam
+samtools view -bS -o $outDir/nv.complete.chr6region.tumor.R0k6.bam $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
 rm -f $outDir/nv.complete.chr6region.tumor.R0k6.sam
 
 echo -n -e "removing duplicates\n"
 
-$JAVA_DIR/java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.tumor.R0k6.bam O=$outDir/nv.complete.chr6region.tumor.R0k6.csorted.bam SORT_ORDER=coordinate
+java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.tumor.R0k6.bam O=$outDir/nv.complete.chr6region.tumor.R0k6.csorted.bam SORT_ORDER=coordinate
 
-#$JAVA_DIR/$JAVA_DIR/java -Xmx12g -Xms5g -jar $GATK_DIR/MarkDuplicates.jar I=nv.complete.chr6region.tumor.R0k6.csorted.bam O=nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam M=dup.txt REMOVE_DUPLICATES=TRUE TMP_DIR=/broad/hptmp/firehose VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true
+#java -Xmx12g -Xms5g -jar $GATK_DIR/MarkDuplicates.jar I=nv.complete.chr6region.tumor.R0k6.csorted.bam O=nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam M=dup.txt REMOVE_DUPLICATES=TRUE TMP_DIR=/broad/hptmp/firehose VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true
 
-$SAMTOOLS_DIR/samtools rmdup $outDir/nv.complete.chr6region.tumor.R0k6.csorted.bam $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam
+samtools rmdup $outDir/nv.complete.chr6region.tumor.R0k6.csorted.bam $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam
 
 t=`ls -lh $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam`
 echo -n -e "size of bam = $t\n"
@@ -224,7 +221,7 @@ echo -n -e "indexing aligned file\n"
 
 date
 
-$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam
+samtools index $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam
 
 ################################## call hla mutations ########################################
 
@@ -232,9 +229,9 @@ normalBam=$outDir/nv.complete.chr6region.R0k6.csorted.nodup.bam
 tumorBam=$outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.bam
 hlaFile=$hla
 
-$JAVA_DIR/java -jar $GATK_DIR/AddOrReplaceReadGroups.jar I=$normalBam O=$outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam RGID=foo RGLB=foo RGPL=foo RGPU=foo RGSM=foo
+java -jar $GATK_DIR/AddOrReplaceReadGroups.jar I=$normalBam O=$outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam RGID=foo RGLB=foo RGPL=foo RGPU=foo RGSM=foo
 
-$JAVA_DIR/java -jar $GATK_DIR/AddOrReplaceReadGroups.jar I=$tumorBam O=$outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam RGID=foo RGLB=foo RGPL=foo RGPU=foo RGSM=foo
+java -jar $GATK_DIR/AddOrReplaceReadGroups.jar I=$tumorBam O=$outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam RGID=foo RGLB=foo RGPL=foo RGPU=foo RGSM=foo
 
 echo -n -e "changing flags and mapping quality\n"
 
@@ -244,9 +241,9 @@ $PSHOME/scripts/filterReads.pl $outDir/nv.complete.chr6region.tumor.R0k6.csorted
 
 echo -n -e "indexing\n"
 
-$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.rm.tag.bam
+samtools index $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.rm.tag.bam
 
-$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.rm.tag.bam
+samtools index $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.rm.tag.bam
 
 $PSHOME/scripts/hlaOneline.pl $hlaFile $outDir/hla.intervals
 
@@ -267,29 +264,29 @@ for allele in $var; do
         more $PSHOME/data/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.tumor.sam
         more $PSHOME/data/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.tumor.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.tumor.sam
-        $SAMTOOLS_DIR/samtools view $tumorBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele.tumor
+        samtools view $tumorBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele.tumor
         $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele.tumor $outDir/temp.$allele.tumor2
         cat $outDir/temp.$allele.tumor2 >> $outDir/temp.$allele.tumor.sam
-        $SAMTOOLS_DIR/samtools view -bS -o $outDir/temp.$allele.tumor.bam $outDir/temp.$allele.tumor.sam
-        $SAMTOOLS_DIR/samtools sort $outDir/temp.$allele.tumor.bam $outDir/type.$allele.tumor
-        $SAMTOOLS_DIR/samtools index $outDir/type.$allele.tumor.bam
+        samtools view -bS -o $outDir/temp.$allele.tumor.bam $outDir/temp.$allele.tumor.sam
+        samtools sort $outDir/temp.$allele.tumor.bam $outDir/type.$allele.tumor
+        samtools index $outDir/type.$allele.tumor.bam
         rm -rf $outDir/temp.$allele.tumor.*
 
         more $PSHOME/data/novoalign_complete_header.sam | grep "\@HD" > $outDir/temp.$allele.sam
         more $PSHOME/data/novoalign_complete_header.sam | grep "\@PG" >> $outDir/temp.$allele.sam
         more $PSHOME/data/novoalign_complete_header.sam | grep -P "$allele\t" >> $outDir/temp.$allele.sam
         echo -n -e "@RG\tID:foo\tPL:foo\tPU:foo\tLB:foo\tSM:foo\n" >> $outDir/temp.$allele.sam
-        $SAMTOOLS_DIR/samtools view $normalBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele
+        samtools view $normalBam | grep -P "\t$allele\t" | sort -k1 > $outDir/temp.$allele
         $PSHOME/scripts/keep_only_read_pairs.pl $outDir/temp.$allele $outDir/temp.$allele.2
         cat $outDir/temp.$allele.2 >> $outDir/temp.$allele.sam
-        $SAMTOOLS_DIR/samtools view -bS -o $outDir/temp.$allele.bam $outDir/temp.$allele.sam
-        $SAMTOOLS_DIR/samtools sort $outDir/temp.$allele.bam $outDir/type.$allele
-        $SAMTOOLS_DIR/samtools index $outDir/type.$allele.bam
+        samtools view -bS -o $outDir/temp.$allele.bam $outDir/temp.$allele.sam
+        samtools sort $outDir/temp.$allele.bam $outDir/type.$allele
+        samtools index $outDir/type.$allele.bam
         rm -rf $outDir/temp.$allele.*
 
         # run mutect
         echo -n -e "mutect: $allele\n"
-        $JAVA_DIR/java -Xmx2g -jar $MUTECT_DIR/muTect-1.1.6.jar \
+        java -Xmx2g -jar $MUTECT_DIR/muTect-1.1.6.jar \
         --analysis_type MuTect \
         --reference_sequence $PSHOME/data/complete/$allele.fasta \
         --input_file:normal $outDir/type.$allele.bam \

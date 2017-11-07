@@ -16,9 +16,6 @@ fi
 
 echo "Environment variables"
 echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
-echo "  -SAMTOOLS_DIR: directory containing the samtools executable = $SAMTOOLS_DIR"
-echo "  -JAVA_DIR: directory containing the JAVA_DIR executable"
-echo "  -NOVOALIGN_DIR: directory containing the Novoalign executables = $NOVOALIGN_DIR"
 echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
 echo "  -NUM_THREADS: number of threads = $NUM_THREADS"          
                                                                    
@@ -45,7 +42,7 @@ if [ $insertCalc == 1 ]; then
 
 	echo -n -e "calculating insert size distribution\n"
 
-	$JAVA_DIR/java -Xmx12g -Xms5g -jar $GATK_DIR/CollectInsertSizeMetrics.jar I=$bam O=$outDir/insertsize.txt H=$outDir/insertsize.hist.pdf VALIDATION_STRINGENCY=SILENT TMP_DIR=$outDir
+	java -Xmx12g -Xms5g -jar $GATK_DIR/CollectInsertSizeMetrics.jar I=$bam O=$outDir/insertsize.txt H=$outDir/insertsize.hist.pdf VALIDATION_STRINGENCY=SILENT TMP_DIR=$outDir
 
 
 else
@@ -59,13 +56,13 @@ fi
 
 echo -n -e "getting matching tags\n"
 
-$SAMTOOLS_DIR/samtools view -H $bam > $outDir/tag.sam
+samtools view -H $bam > $outDir/tag.sam
 
-$SAMTOOLS_DIR/samtools view $bam | grep -F -f $tag_file >> $outDir/tag.sam
+samtools view $bam | grep -F -f $tag_file >> $outDir/tag.sam
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
+samtools view -bS -o $outDir/tag.bam $outDir/tag.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/tag.bam F=$outDir/tag.1.fastq F2=$outDir/tag.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.1.fastq
 
@@ -75,33 +72,33 @@ $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/tag.2.fastq
 
 echo -n -e "getting chr6 region\n"
 
-$SAMTOOLS_DIR/samtools view -H $bam > $outDir/chr6region.sam
+samtools view -H $bam > $outDir/chr6region.sam
 
 if [ $build == "hg19" ]; then
 
         echo -n -e "build=hg19\n"
 
-        $SAMTOOLS_DIR/samtools view $bam 6:29909037-29913661 >> $outDir/chr6region.sam
+        samtools view $bam 6:29909037-29913661 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $bam 6:31321649-31324964 >> $outDir/chr6region.sam
+        samtools view $bam 6:31321649-31324964 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $bam 6:31236526-31239869 >> $outDir/chr6region.sam
+        samtools view $bam 6:31236526-31239869 >> $outDir/chr6region.sam
 
 else
 
         echo -n -e "build=hg18\n"
 
-        $SAMTOOLS_DIR/samtools view $bam chr6:30016016-30022640 >> $outDir/chr6region.sam
+        samtools view $bam chr6:30016016-30022640 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $bam chr6:31428628-31433943 >> $outDir/chr6region.sam
+        samtools view $bam chr6:31428628-31433943 >> $outDir/chr6region.sam
 
-        $SAMTOOLS_DIR/samtools view $bam chr6:31343505-31348848 >> $outDir/chr6region.sam
+        samtools view $bam chr6:31343505-31348848 >> $outDir/chr6region.sam
 
 fi
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
+samtools view -bS -o $outDir/chr6region.bam $outDir/chr6region.sam
 
-$JAVA_DIR/java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
+java -jar $GATK_DIR/SamToFastq.jar I=$outDir/chr6region.bam F=$outDir/chr6region.1.fastq F2=$outDir/chr6region.2.fastq VALIDATION_STRINGENCY=SILENT
 
 $PSHOME/scripts/clean_unpaired_fastq.pl $outDir/chr6region.1.fastq
 
@@ -121,29 +118,29 @@ echo -n -e "aligning to HLA library\n"
 
 cat $PSHOME/data/novoalign_complete_header.sam > $outDir/nv.complete.chr6region.R0k6.sam
 
-$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0 $NOVOALIGN_DIR
+$PSHOME/scripts/align_fork_fh.pl $outDir/merged.1.fastq $outDir/merged.2.fastq $NUM_THREADS $format $PSHOME/data/abc_complete.nix $outDir/nv.complete.chr6region.R0k6.sam 0
 
-$SAMTOOLS_DIR/samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
+samtools view -bS -o $outDir/nv.complete.chr6region.R0k6.bam $outDir/nv.complete.chr6region.R0k6.sam
 
 rm -f $outDir/nv.complete.chr6region.R0k6.sam
 
 echo -n -e "sorting\n"
 
-$JAVA_DIR/java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate TMP_DIR=$TMP_DIR
+java -jar $GATK_DIR/SortSam.jar I=$outDir/nv.complete.chr6region.R0k6.bam O=$outDir/nv.complete.chr6region.R0k6.csorted.bam SORT_ORDER=coordinate TMP_DIR=$TMP_DIR
 
 t=`ls -lh $outDir/nv.complete.chr6region.R0k6.csorted.bam`
 echo -n -e "size of bam = $t\n"
 
 rm -f $outDir/nv.complete.chr6region.R0k6.bam
 
-$SAMTOOLS_DIR/samtools index $outDir/nv.complete.chr6region.R0k6.csorted.bam
+samtools index $outDir/nv.complete.chr6region.R0k6.csorted.bam
 
 # first allele calculations
 
 echo -n -e "calculating lik1\n"
 date
 
-$PSHOME/scripts/first_allele_calculations_fork.pl $ids $PSHOME $SAMTOOLS_DIR/samtools $NUM_THREADS $race $iFile $outDir
+$PSHOME/scripts/first_allele_calculations_fork.pl $ids $PSHOME samtools $NUM_THREADS $race $iFile $outDir
 
 date
 
