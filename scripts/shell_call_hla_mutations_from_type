@@ -301,7 +301,7 @@ for allele in $var; do
 
         # run strelka
         echo -n -e "strelka: $allele\n"
-        $STRELKA_DIR/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$DATA_DIR/abc_complete.fasta --config=$DIR/../scripts/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
+        $STRELKA_DIR/configureStrelkaWorkflow.pl --normal=$outDir/type.$allele.bam --tumor=$outDir/type.$allele.tumor.bam --ref=$DATA_DIR/abc_complete.fasta --config=$STRELKA_DIR/etc/strelka_config_eland_default.ini --output-dir=$outDir/strelka.$allele
                 make -C $outDir/strelka.$allele
                 cp $outDir/strelka.$allele/results/all.somatic.indels.vcf $outDir/$allele.all.somatic.indels.vcf
 
