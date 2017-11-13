@@ -20,4 +20,4 @@ cd include/ && \
   cd strelka-upstream-v1.0.11 && \
   ./configure --prefix=$PREFIX/share/strelka && \
   make
-cd $PREFIX/share/strelka/opt/vcfstools && make
+cd $PREFIX/share/strelka/opt/vcftools && make
