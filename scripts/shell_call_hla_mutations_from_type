@@ -310,13 +310,13 @@ done
 
 echo -n -e "cleanup\n"
 
-#rm -rf $outDir/chr*bam* &
-#rm -rf $outDir/tag*bam* &
-#rm -rf $outDir/*sam &
-#rm -rf $outDir/nv.complete.chr6region.R0k6.bam.* &
-#rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.bam.* &
-#rm -rf $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam.* &
-#rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam.* &
-#rm -rf $outDir/strelka* $outDir/type* $outDir/cov* $outDir/nv* &
-#rm -rf $outDir/temp* $outDir/tag* $outDir/chr6* $outDir/merged* &
-#rm -rf $outDir/hla.output* &
+rm -rf $outDir/chr*bam* &
+rm -rf $outDir/tag*bam* &
+rm -rf $outDir/*sam &
+rm -rf $outDir/nv.complete.chr6region.R0k6.bam.* &
+rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.bam.* &
+rm -rf $outDir/nv.complete.chr6region.R0k6.csorted.nodup.RG.bam.* &
+rm -rf $outDir/nv.complete.chr6region.tumor.R0k6.csorted.nodup.RG.bam.* &
+rm -rf $outDir/strelka* $outDir/type* $outDir/cov* $outDir/nv* &
+rm -rf $outDir/temp* $outDir/tag* $outDir/chr6* $outDir/merged* &
+rm -rf $outDir/hla.output* &
