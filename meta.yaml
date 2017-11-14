@@ -7,7 +7,7 @@ source:
   git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
-  number: 19
+  number: 20
 
 requirements:
   build:
