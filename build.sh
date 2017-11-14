@@ -20,7 +20,10 @@ cd include/ && \
   cd strelka-upstream-v1.0.11 && \
   ./configure --prefix=$PREFIX/share/strelka && \
   make
+echo "Trying to finish the vcftools install"
 cd $PREFIX/share/strelka/opt/vcftools && make
+mydisp=$(ls -l $PREFIX/share/strelka/opt/vcftools)
+echo "${mydisp}"
 echo "Install hla-polysolver"
 cp $SRC_DIR/scripts/shell_annotate_hla_mutations $PREFIX/bin/
 cp $SRC_DIR/scripts/shell_call_hla_mutations_from_type $PREFIX/bin/
