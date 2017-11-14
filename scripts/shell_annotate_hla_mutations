@@ -1,4 +1,4 @@
-
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 #### check if an appropriate number of arguments were passed ####
 
@@ -10,23 +10,22 @@ if [ $# -ne 2 ]; then
 fi
 
 echo "Environment variables"
-echo "  -PSHOME: POLYSOLVER home directory = $PSHOME"
-echo "  -GATK_DIR: directory containing the GATK jar files = $GATK_DIR"
+echo "  -DATA_DIR: directory containing data = $DATA_DIR"
 
 
 indiv=$1
-dir=$2
+mydir=$2
 
-$PSHOME/scripts/annotate_hla_mutect.pl $indiv $dir $DATA_DIR/a_complete.3100.new.eb.fasta $DATA_DIR/b_complete.3100.new.eb.fasta $DATA_DIR/c_complete.3100.new.eb.fasta $PSHOME
+$DIR/../scripts/annotate_hla_mutect.pl $indiv $mydir $DATA_DIR/a_complete.3100.new.eb.fasta $DATA_DIR/b_complete.3100.new.eb.fasta $DATA_DIR/c_complete.3100.new.eb.fasta $DIR/..
 
-$PSHOME/scripts/filter_hla_mutect.pl $dir/$indiv.mutect.unfiltered.annotated $indiv $dir 0 $PSHOME
+$DIR/../scripts/filter_hla_mutect.pl $mydir/$indiv.mutect.unfiltered.annotated $indiv $mydir 0 $DIR/..
  
-$PSHOME/scripts/remove_synonymous_hla_mutect.pl $dir/$indiv.mutect.filtered.annotated $indiv $dir
+$DIR/../scripts/remove_synonymous_hla_mutect.pl $mydir/$indiv.mutect.filtered.annotated $indiv $mydir
 
 
-$PSHOME/scripts/annotate_hla_strelka_indels.pl $indiv $dir $DATA_DIR/a_complete.3100.new.eb.fasta $DATA_DIR/b_complete.3100.new.eb.fasta $DATA_DIR/c_complete.3100.new.eb.fasta $PSHOME
+$DIR/../scripts/annotate_hla_strelka_indels.pl $indiv $mydir $DATA_DIR/a_complete.3100.new.eb.fasta $DATA_DIR/b_complete.3100.new.eb.fasta $DATA_DIR/c_complete.3100.new.eb.fasta $DIR/..
 
-$PSHOME/scripts/filter_hla_strelka_indels.pl $dir/$indiv.strelka_indels.unfiltered.annotated $indiv $dir $PSHOME
+$DIR/../scripts/filter_hla_strelka_indels.pl $mydir/$indiv.strelka_indels.unfiltered.annotated $indiv $mydir $DIR/..
 
-rm -f $dir/*mutect.filtered.annotated
+rm -f $mydir/*mutect.filtered.annotated
 
