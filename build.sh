@@ -21,3 +21,7 @@ cd include/ && \
   ./configure --prefix=$PREFIX/share/strelka && \
   make
 cd $PREFIX/share/strelka/opt/vcftools && make
+echo "Install hla-polysolver"
+cp $SRC_DIR/scripts/shell_annotate_hla_mutations $PREFIX/bin/
+cp $SRC_DIR/scripts/shell_call_hla_mutations_from_type $PREFIX/bin/
+cp $SRC_DIR/scripts/shell_call_hla_type $PREFIX/bin/
