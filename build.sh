@@ -24,6 +24,8 @@ echo "build main part"
 cd $SRC_DIR/include/strelka-upstream-v1.0.11 && \
   ./configure --prefix=$PREFIX/share/strelka && \
   make
+cp -r $SRC_DIR/include/strelka-upstream-v1.0.11/redist/vcftools-r837/bin $PREFIX/share/strelka/opt/vcftools/bin
+cp -r $SRC_DIR/include/strelka-upstream-v1.0.11/redist/vcftools-r837/lib $PREFIX/share/strelka/opt/vcftools/lib
 #echo "Trying to finish the vcftools install"
 #cd $PREFIX/share/strelka/opt/vcftools && make
 #mydisp=$(ls -l $PREFIX/share/strelka/opt/vcftools)
