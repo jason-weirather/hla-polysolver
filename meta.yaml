@@ -19,6 +19,7 @@ requirements:
     - zlib
   run:
     - zlib
+    - make
     - python 2.7.*
     - perl 5.22.*
     - samtools <=0.1.18
