@@ -15,9 +15,13 @@ novoindex $PREFIX/share/polysolver_data/abc_complete.nix $PREFIX/share/polysolve
 echo "Put scripts into the polysolver build"
 cp $SRC_DIR/scripts/* $PREFIX/scripts/
 echo "Build strelka"
-cd include/ && \
+echo "start building vcftools"
+cd $SRC_DIR/include/ && \
   tar -xzf strelka-upstream-v1.0.11.tar.gz && \
-  cd strelka-upstream-v1.0.11 && \
+  cd $SRC_DIR/include/strelka-upstream-v1.0.11/redist/vcftools-r837 && \
+  make
+echo "build main part"
+cd $SRC_DIR/include/strelka-upstream-v1.0.11 && \
   ./configure --prefix=$PREFIX/share/strelka && \
   make
 #echo "Trying to finish the vcftools install"
