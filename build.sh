@@ -30,7 +30,14 @@ cd $SRC_DIR/include/ && \
 #cd $PREFIX/share/strelka/opt/vcftools && make
 #mydisp=$(ls -l $PREFIX/share/strelka/opt/vcftools)
 #echo "${mydisp}"
-echo "Install hla-polysolver"
-cp $SRC_DIR/scripts/shell_annotate_hla_mutations $PREFIX/bin/
-cp $SRC_DIR/scripts/shell_call_hla_mutations_from_type $PREFIX/bin/
-cp $SRC_DIR/scripts/shell_call_hla_type $PREFIX/bin/
+
+echo "Install hla-polysolver with Conda specific EVs"
+cat $SRC_DIR/config.bash > $PREFIX/bin/shell_annotate_hla_mutations
+cat $SRC_DIR/config.bash > $PREFIX/bin/shell_call_hla_mutations_from_type
+cat $SRC_DIR/config.bash > $PREFIX/bin/shell_call_hla_type
+chmod 755 $PREFIX/bin/shell_annotate_hla_mutations
+chmod 755 $PREFIX/bin/shell_call_hla_mutations_from_type
+chmod 755 $PREFIX/bin/shell_call_hla_type
+cat $SRC_DIR/scripts/shell_annotate_hla_mutations >> $PREFIX/bin/shell_annotate_hla_mutations
+cat $SRC_DIR/scripts/shell_call_hla_mutations_from_type >> $PREFIX/bin/shell_call_hla_mutations_from_type
+cat $SRC_DIR/scripts/shell_call_hla_type >> $PREFIX/bin/shell_call_hla_type

@@ -1,8 +1,7 @@
-#!/bin/sh -l
+#!/bin/env bash
 
 # User modifiable variables
 
-#export PSHOME=$CONDA_PREFIX/scripts
 export GATK_DIR=$CONDA_PREFIX/jar
 export MUTECT_DIR=$CONDA_PREFIX/jar
 export STRELKA_DIR=$CONDA_PREFIX/share/strelka
