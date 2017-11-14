@@ -7,7 +7,7 @@ source:
   git_url: https://github.com/jason-weirather/hla-polysolver.git
 
 build:
-  number: 17
+  number: 18
 
 requirements:
   build:
@@ -34,6 +34,7 @@ requirements:
     - perl-data-dumper
     - perl-bio-db-sam
     - perl-array-utils
+    - perl-vcftools-vcf <=0.953
 about:
   home: https://github.com/jason-weirather/hla-polysolver
   license: BSD
