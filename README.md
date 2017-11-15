@@ -19,6 +19,7 @@ channels:
   - defaults
   - bioconda
   - conda-forge
+  - vacation
 ```
 
 Then if you can install the usual conda way.  I recommend creating a seperate environment for it because of its many ancient dependancies.  You probably don't want them in your every day working environment.
