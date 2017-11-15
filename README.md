@@ -14,13 +14,13 @@ If you are using *hla-polysolver* as part of a pipeline be sure to site the abov
 
 ### Changes in hla-polsyolver 1.0.0 from polysolver v1.0
 
-* Removed hardcoded author paths
-* Environment variables are set automatically when run within Conda
+* Use the install of `build.sh` to make it so environment variables are set automatically when run within Conda
 * Reduced use of enviornment variables
 * Remove Novoalign index from the source code. Now is pre-built when building the conda environment, and is included along with other necessary data in the conda environment. If you are doing a local run and not using Conda see `build.sh` to see how to create this data file.
 * Change from hardcoded perl and bash to whichever the user has installed under /usr/bin/env. This is better for non-conda runs but has the added benefit of using Conda's perl when running.
 * Installed the shell scripts for hla typing, mutation calling, and annotation in the Conda enviornment so they are in the `PATH` of the Conda environment.
 * Cleaning up the command calls and piping allows running the installed scripts from outside of the source directory.
+* Removed hardcoded author paths
 * Hardcoded temporary directory to /tmp. Not a great thing, but should work on most linux, and I plan to fix this soon.
 
 hla-polysolver is mainly intended for use by adding it to a conda environment.
