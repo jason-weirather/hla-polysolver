@@ -1,4 +1,4 @@
-## This is **NOT** the distribution site for Polysolver software. This is a modification made for pipeline incorperation from v1.0.  If you're looking for Polysolver please see:
+##### This is **NOT** the distribution site for Polysolver software. This is a modification made for pipeline incorperation from v1.0.  If you're looking for Polysolver please see:
 
 http://archive.broadinstitute.org/cancer/cga/polysolver
 
@@ -6,7 +6,9 @@ http://archive.broadinstitute.org/cancer/cga/polysolver
 
 https://www.ncbi.nlm.nih.gov/pubmed/26372948
 
-If you want to run Polysolver, you should use the above, and if you are using this as part of a pipeline be sure to see and appropriately site the above Polysolver software and publication. This fork is a modification under the "BSD-style License" included with Polysolver with the purpose of maintaing a stable platform for supplying the required files for to work with the HLALOH pipeline (McGranahan N., et. al. https://doi.org/10.1016/j.cell.2017.10.001) and other pipelines. The mutual requirements include legacy versions of dependencies that are not described in the manuals so this *hla-polysolver* fork is intended to provide a clear connection to those undocumented dependencies and ease their depolyment on conda and docker environments. This fork was generated from v1.0 Polysolver and is not affiliated with Polysolver or the Broad Institute. Please see `LICENSE` for the particular requirements and respect the license requirements of the dependencies. Modifications made in this fork are free to use reuse and modify.
+If you want to run Polysolver, you should try to directly use the above.
+
+If you are using *hla-polysolver* as part of a pipeline be sure to site the above Polysolver software and publication. This is modification under Polysolver's "BSD-style License" with the purpose of maintaing a stable platform for supplying the required files for to work with the LOHHLA pipeline (McGranahan N., et. al. https://doi.org/10.1016/j.cell.2017.10.001) and other pipelines. The mutual requirements include legacy versions of dependencies that are not described in the manuals so this *hla-polysolver* fork is intended to provide a clear connection to those undocumented dependencies and ease their depolyment on conda and docker environments. This fork was generated from v1.0 Polysolver and is not affiliated with Polysolver or the Broad Institute. Please see `LICENSE` for the particular requirements and respect the license requirements of the dependencies. And to make adjustments or updated genomes/annotations as necessary. My work on this fork is free to use reuse and modify under the Apache 2.0 license, but please pay attention to the included `LICENSE` notice for Polysolver and its dependancies there are a lot of boutique licenses to pay attention to including Broad licenses and Commercial Novoalign license.
 
 # hla-polysolver
 
