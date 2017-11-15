@@ -12,9 +12,11 @@ If you are using *hla-polysolver* as part of a pipeline be sure to site the abov
 
 # hla-polysolver
 
-### Changes in hla-polsyolver 1.0.0 from polysolver v1.0
+##### Changes in hla-polsyolver 1.0.0 from polysolver v1.0
 
-* Use the install of `build.sh` to make it so environment variables are set automatically when run within Conda
+* Added added build recipie for conda
+* Remove absolute path references that break the run
+* Use the install of `build.sh` to make it so environment variables are set automatically **when run within Conda**
 * Reduced use of enviornment variables
 * Remove Novoalign index from the source code. Now is pre-built when building the conda environment, and is included along with other necessary data in the conda environment. If you are doing a local run and not using Conda see `build.sh` to see how to create this data file.
 * Change from hardcoded perl and bash to whichever the user has installed under /usr/bin/env. This is better for non-conda runs but has the added benefit of using Conda's perl when running.
@@ -22,6 +24,10 @@ If you are using *hla-polysolver* as part of a pipeline be sure to site the abov
 * Cleaning up the command calls and piping allows running the installed scripts from outside of the source directory.
 * Removed hardcoded author paths
 * Hardcoded temporary directory to /tmp. Not a great thing, but should work on most linux, and I plan to fix this soon.
+* Added old picard tools dependency (likely what polysolver referred to as GATK)
+* Updated data to include necessary fastas to complete mutation calling pipeline (part 2 of polysolver)
+
+## Running in Conda
 
 hla-polysolver is mainly intended for use by adding it to a conda environment.
 
@@ -49,27 +55,21 @@ And then you can run polysolver as described int the testing description. If you
 
 And you can run the test.
 
-`(polysolver)$ shell_call_hla_type hla-polysolver test/test.bam Unknown 1 hg19 STDFQ 0 output`
-`(polysolver)$ shell_call_hla_mutations_from_type hla-polysolver/test/test.bam hla-polysolver/test/test.tumor.bam output/winners.hla.txt hg19 STDFQ output`
-`(polysolver)$ shell_annotate_hla_mutations indiv output`
+```
+(polysolver)$ shell_call_hla_type hla-polysolver test/test.bam Unknown 1 hg19 STDFQ 0 output
+(polysolver)$ shell_call_hla_mutations_from_type hla-polysolver/test/test.bam hla-polysolver/test/test.tumor.bam output/winners.hla.txt hg19 STDFQ output
+(polysolver)$ shell_annotate_hla_mutations indiv output
+```
 
 This will produce results in a folder called output.
 
-#### Requirements to build the linux conda environment that didn't seem to pick up from conda revolved around the strelka caller and maybe its vcftools ... may need to have these in the environment to build
+##### Building the Conda Enviroment yourself
+
+Requirements to build the linux conda environment that didn't seem to pick up from conda revolved around the strelka caller and maybe its vcftools ... may need to have these in the environment to build
 
 * zlib1g-dev
 * g++
 
-## hla-polysolver
-
-Changes from polysolver v1.0
-
-1. Added added build recipie for conda
-2. Remove absolute path references that break the run
-3. Remove dependency environment variables when having the proper versions installed can suffice
-4. Added old picard tools dependency (what polysolver referred to as GATK)
-5. Updated data to include necessary fastas to complete mutation calling pipeline (part 2 of polysolver)
-6. Removed the .nix hla index file thats too big for github, now its built in conda's build.sh
 
 #### TABLE OF CONTENTS ####
 1. Description
