@@ -6,6 +6,6 @@ RUN cd /home && \
     conda install -c vacation hla-polysolver && \
     rm -r /home/hla-polysolver
 
-RUN echo "export CONDA_PREFIX=/opt/conda" >> /root/.bashrc
+ENV CONDA_PREFIX /opt/conda
 
 WORKDIR /home
