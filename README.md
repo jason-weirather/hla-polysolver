@@ -8,10 +8,42 @@ https://www.ncbi.nlm.nih.gov/pubmed/26372948
 
 If you want to run Polysolver, you should use the above, and if you are using this as part of a pipeline be sure to see and appropriately site the above Polysolver software and publication. This fork is a modification under the "BSD-style License" included with Polysolver with the purpose of maintaing a stable platform for supplying the required files for to work with the HLALOH pipeline (McGranahan N., et. al. https://doi.org/10.1016/j.cell.2017.10.001) and other pipelines. The mutual requirements include legacy versions of dependencies that are not described in the manuals so this *hla-polysolver* fork is intended to provide a clear connection to those undocumented dependencies and ease their depolyment on conda and docker environments. This fork was generated from v1.0 Polysolver and is not affiliated with Polysolver or the Broad Institute. Please see `LICENSE` for the particular requirements and respect the license requirements of the dependencies. Modifications made in this fork are free to use reuse and modify.
 
-## Requirements to build (recommend getting prebuilt version from anaconda)
+# hla-polysolver
+
+hla-polysolver is mainly intended for use by adding it to a conda environment.
+
+You can do this by setting your `~/.condarc` file to include
+
+```
+channels:
+  - defaults
+  - bioconda
+  - conda-forge
+```
+
+Then if you can install the usual conda way.  I recommend creating a seperate environment for it because of its many ancient dependancies.  You probably don't want them in your every day working environment.
+
+`$ conda create -n polysolver -c vacation hla-polysolver`
+
+Then after the environement is created you can activate it.
+
+`$ source activate polysolver`
+
+And then you can run polysolver as described int the testing description. If you get the github repository you will have access to the testing data.
+
+`(polysolver)$ git clone https://github.com/jason-weirather/hla-polysolver.git`
+
+And you can run the test.
+
+`(polysolver)$ shell_call_hla_type hla-polysolver test/test.bam Unknown 1 hg19 STDFQ 0 output`
+`(polysolver)$ shell_call_hla_mutations_from_type hla-polysolver/test/test.bam hla-polysolver/test/test.tumor.bam output/winners.hla.txt hg19 STDFQ output`
+`(polysolver)$ shell_annotate_hla_mutations indiv output`
+
+This will produce results in a folder called output.
+
+#### Requirements to build the linux conda environment that didn't seem to pick up from conda revolved around the strelka caller and maybe its vcftools ... may need to have these in the environment to build
 
 * zlib1g-dev
-* make
 * g++
 
 ## hla-polysolver
