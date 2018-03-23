@@ -49,6 +49,10 @@ Then after the environement is created you can activate it.
 
 `$ source activate polysolver`
 
+After activating the environment you need to set the perl5 path (thanks smangul1).
+
+`(polysolver)$ export PERL5LIB="$CONDA_PREFIX/lib/perl5/5.22.0/"`
+
 And then you can run polysolver as described int the testing description. If you get the github repository you will have access to the testing data.
 
 `(polysolver)$ git clone https://github.com/jason-weirather/hla-polysolver.git`
