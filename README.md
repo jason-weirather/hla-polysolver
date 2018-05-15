@@ -6,7 +6,7 @@ http://archive.broadinstitute.org/cancer/cga/polysolver
 
 https://www.ncbi.nlm.nih.gov/pubmed/26372948
 
-⚠ Please note that this fork of polysolver does not produce exactly the same HLA haplotype calls as the example file includede with polysolver. I observed one difference in the haplotype, but I think it was in one of the more minor subtypes of the haplotypes. 
+⚠ Please note that this fork of polysolver does not produce exactly the same HLA haplotype calls as the example file included with polysolver. I observed one difference in the haplotype, but I think it was in one of the more minor subtype of one of the haplotypes.
 
 The most current version of polysolver I know of now is available through docker here https://hub.docker.com/r/sachet/polysolver/tags/ These have been maintained by the first author of Polysolver, and I recommend using this if at all possible.
 
